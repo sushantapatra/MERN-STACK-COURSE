@@ -3,6 +3,8 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import connectDB from "./utils/db.js";
+import userRoute from "./routes/UserRoute.js";
+import postRoute from "./routes/PostRoute.js";
 
 dotenv.config({});
 
@@ -24,7 +26,8 @@ app.get("/", (req, res) => {
 		success: true,
 	});
 });
-
+app.use("/api/v1/user", userRoute);
+app.use("/api/v1/post", postRoute);
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
 	connectDB();
