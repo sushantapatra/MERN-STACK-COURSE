@@ -36,3 +36,26 @@ export const sendMessage = async (req, res) => {
 		console.log(`Send Message Error : ${error}`);
 	}
 };
+
+export const getMessage = async (req, res) => {
+	try {
+		const senderId = req.id;
+		const receiverId = req.params.id;
+		const conversation = await Conversation.find({
+			participants: { $all: [senderId, receiverId] },
+		});
+
+		if (!conversation) {
+			return res.status(200).json({
+				success: true,
+				messages: [],
+			});
+		}
+		return res.status(200).json({
+			success: true,
+			messages: conversation?.messages,
+		});
+	} catch (error) {
+		console.log(`Get Message Error : ${error}`);
+	}
+};
