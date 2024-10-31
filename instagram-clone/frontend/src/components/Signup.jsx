@@ -4,6 +4,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "./ui/button";
 import { toast } from "sonner";
 import axios from "axios";
+import { Link } from "react-router-dom";
+import { Loader2 } from "lucide-react";
 
 const Signup = () => {
 	const [input, setInput] = useState({
@@ -11,20 +13,26 @@ const Signup = () => {
 		email: "",
 		password: "",
 	});
+	const [loading, setLoading] = useState(false);
 
 	const changeEventHandler = (e) => {
 		setInput({ ...input, [e.target.name]: e.target.value });
 	};
 	const signupHandler = async (e) => {
 		e.preventDefault();
-		console.log(input);
 		try {
+			setLoading(true);
 			const res = await axios.post(
 				"http://localhost:8000/api/v1/user/register",
 				input
 			);
 
 			if (res.data.success) {
+				setInput({
+					username: "",
+					email: "",
+					password: "",
+				});
 				toast.success(res.data.message);
 			} else {
 				toast.error(res.data.message);
@@ -32,6 +40,8 @@ const Signup = () => {
 		} catch (error) {
 			console.log(error);
 			toast.success(error.message);
+		} finally {
+			setLoading(false);
 		}
 	};
 	return (
@@ -43,7 +53,7 @@ const Signup = () => {
 				<div className="my-4">
 					<h1 className="text-center font-bold text-xl">LOGO</h1>
 					<p className="text-center text-sm">
-						Sign to see photos & videos from your friends
+						Signup to see photos & videos from your friends
 					</p>
 				</div>
 
@@ -89,8 +99,21 @@ const Signup = () => {
 						onChange={changeEventHandler}
 					/>
 				</div>
+				{loading ? (
+					<Button>
+						<Loader2 className="mr-2 h-4 w-4 animate-spin" />
+						Please wait...
+					</Button>
+				) : (
+					<Button type="submit">Signup</Button>
+				)}
 
-				<Button type="submit">Signup</Button>
+				<span className="text-center">
+					Already have an account?
+					<Link className="text-blue-500" to="/login">
+						Login
+					</Link>
+				</span>
 			</form>
 		</div>
 	);
