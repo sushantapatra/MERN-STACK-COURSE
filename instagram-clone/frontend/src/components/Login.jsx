@@ -45,7 +45,7 @@ const Login = () => {
 		}
 	};
 	return (
-		<div className="flex items-center justify-center w-screen h-screen">
+		<div className="flex items-center justify-center h-screen">
 			<form
 				className="shadow-lg flex flex-col gap-2 p-8 "
 				onSubmit={signupHandler}
