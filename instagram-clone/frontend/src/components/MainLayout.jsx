@@ -6,7 +6,6 @@ const MainLayout = () => {
 	return (
 		<div>
 			<LeftSidebar />
-			<div>Main</div>
 			<Outlet />
 		</div>
 	);
